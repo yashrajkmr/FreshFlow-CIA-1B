@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth scroll-pt-24">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshFlow | Dynamic Pricing Engine</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] } } }
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-slate-300 antialiased overflow-x-hidden flex flex-col min-h-screen" style="font-family:'Plus Jakarta Sans',sans-serif;">
+
+    <div class="fixed inset-0 z-[-20] bg-[url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2074&auto=format&fit=crop')] bg-cover bg-center"></div>
+    <div class="fixed inset-0 z-[-15] bg-slate-950/85 backdrop-blur-[2px]"></div>
+
+    <div class="fixed top-[-10%] left-[5%] w-[50%] h-[50%] bg-emerald-600/20 rounded-full blur-[120px] z-[-10]"></div>
+    <div class="fixed bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-cyan-600/10 rounded-full blur-[100px] z-[-10]"></div>
+
+    <!-- header nav -->
+    <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 shadow-sm relative">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center max-w-7xl">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 p-2 rounded-xl shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-bolt text-lg"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold text-white">FreshFlow<span class="text-emerald-500">.</span></h1>
+            </div>
+
+            <ul class="hidden md:flex gap-8 font-medium text-slate-400 text-sm">
+                <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
+                <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
+                <li><a href="#process" class="hover:text-white transition-colors">How It Works</a></li>
+                <li><a href="#workflow" class="hover:text-white transition-colors">Approval Console</a></li>
+                <li><a href="#demo" class="hover:text-white transition-colors">Demo</a></li>
+                <li><a href="#docs" class="hover:text-white transition-colors">API Docs</a></li>
+            </ul>
+
+            <div class="hidden md:flex gap-4 items-center">
+                <button id="loginBtn" onclick="handleLogin()" class="text-emerald-400 font-medium hover:text-emerald-300 transition-colors text-sm">Log In</button>
+                <button class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2 px-6 rounded-full text-sm transition transform hover:-translate-y-0.5">
+                    Deploy Now
+                </button>
+            </div>
+
+            <button onclick="toggleMenu()" class="md:hidden text-2xl text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+
+        <!-- mobile menu -->
+        <div id="mobileMenu" class="bg-slate-950/95 backdrop-blur-2xl border-b border-white/5 px-6 flex flex-col gap-4 shadow-2xl md:hidden">
+            <a href="#" onclick="toggleMenu()" class="text-slate-400 hover:text-emerald-400 font-medium pt-6">Home</a>
+            <a href="#features" onclick="toggleMenu()" class="text-slate-400 hover:text-emerald-400 font-medium">Features</a>
+            <a href="#process" onclick="toggleMenu()" class="text-slate-400 hover:text-emerald-400 font-medium">How It Works</a>
+            <a href="#workflow" onclick="toggleMenu()" class="text-slate-400 hover:text-emerald-400 font-medium">Approval Console</a>
+            <a href="#demo" onclick="toggleMenu()" class="text-slate-400 hover:text-emerald-400 font-medium">Demo</a>
+            <a href="#docs" onclick="toggleMenu()" class="text-slate-400 hover:text-emerald-400 font-medium pb-6">API Docs</a>
+            <div class="pt-4 mt-2 border-t border-slate-800 flex flex-col gap-4 pb-6">
+                <button onclick="handleLogin(); toggleMenu();" class="text-emerald-400 font-medium text-left">Log In via Local Storage</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-6 py-20 max-w-7xl">
+
+        <!-- hero section -->
+        <section class="text-center max-w-4xl mx-auto mb-20 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-emerald-400 font-semibold text-sm mb-8 border border-emerald-500/20 backdrop-blur-md">
+                <span class="relative flex h-2.5 w-2.5">
+                  <span class="ping-dot absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                </span>
+                <span class="badge-shimmer">v2.0 Architecture Live</span>
+            </div>
+
+            <h2 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+                Zero Waste.<br/>
+                <span class="hero-gradient">Maximum Revenue.</span>
+            </h2>
+
+            <p class="text-lg text-slate-300 mb-10 leading-relaxed max-w-2xl mx-auto font-light">
+                FreshFlow's backend engine dynamically models perishable decay, applying real-time pricing logistics to liquidate inventory before it expires.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+                <a href="#workflow" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-4 px-8 rounded-full shadow-[0_0_30px_rgba(16,185,129,0.3)] transition transform hover:-translate-y-1 text-center">
+                    Start Optimization
+                </a>
+                <button onclick="enableNotifications()" class="bg-slate-900/80 text-white font-medium py-4 px-8 rounded-full border border-slate-700 hover:border-amber-500/50 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-bell text-amber-400"></i> Enable Flash Alerts
+                </button>
+            </div>
+
+            <div class="pt-6 border-t border-slate-800/50">
+                <button onclick="getLocation()" class="text-sm bg-slate-800/80 hover:bg-slate-700 text-white py-2.5 px-5 rounded-xl transition-colors border border-slate-600 flex items-center gap-2 mx-auto">
+                    <i class="fa-solid fa-location-crosshairs text-cyan-400"></i> Find Nearest Partner Supermarket
+                </button>
+                <p id="locText" class="text-xs text-slate-400 mt-3 h-4"></p>
+            </div>
+        </section>
+
+        <!-- stats -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-32 border-y border-slate-800/50 py-10 bg-slate-900/40 backdrop-blur-md rounded-3xl reveal">
+            <div class="text-center stat-card p-6 rounded-2xl">
+                <h4 class="text-4xl font-extrabold text-white mb-2">2.4M</h4>
+                <p class="text-slate-400 text-sm">Tons of Food Saved</p>
+            </div>
+            <div class="text-center stat-card p-6 rounded-2xl">
+                <h4 class="text-4xl font-extrabold text-white mb-2">86%</h4>
+                <p class="text-slate-400 text-sm">Sunk Costs Recovered</p>
+            </div>
+            <div class="text-center stat-card p-6 rounded-2xl">
+                <h4 class="text-4xl font-extrabold text-white mb-2">450+</h4>
+                <p class="text-slate-400 text-sm">Partner Stores</p>
+            </div>
+            <div class="text-center stat-card p-6 rounded-2xl">
+                <h4 class="text-4xl font-extrabold text-emerald-400 mb-2">Zero</h4>
+                <p class="text-slate-400 text-sm">Implementation Fee</p>
+            </div>
+        </section>
+
+        <!-- features -->
+        <section id="features" class="grid md:grid-cols-3 gap-6 mb-32 reveal">
+            <div class="feature-card bg-slate-900/60 backdrop-blur-md p-8 rounded-3xl border border-slate-700/50 transition-all">
+                <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center mb-6 border border-slate-700">
+                    <i class="fa-solid fa-clock-rotate-left text-xl text-blue-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3">Time-Decay Pricing</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Algorithms monitor shelf-life in real-time, automatically calculating tiered markdowns.</p>
+            </div>
+            <div class="feature-card bg-slate-900/60 backdrop-blur-md p-8 rounded-3xl border border-slate-700/50 transition-all">
+                <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center mb-6 border border-slate-700">
+                    <i class="fa-solid fa-database text-xl text-emerald-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3">Concurrency Locks</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Strict database row-level locking eliminates inventory overselling during flash sales.</p>
+            </div>
+            <div class="feature-card bg-slate-900/60 backdrop-blur-md p-8 rounded-3xl border border-slate-700/50 transition-all">
+                <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center mb-6 border border-slate-700">
+                    <i class="fa-solid fa-chart-line text-xl text-cyan-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3">Telemetry Dashboard</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Visualize waste-reduction metrics and checkout flow telemetry through a live dashboard.</p>
+            </div>
+        </section>
+
+        <!-- how it works -->
+        <section id="process" class="mb-32 reveal">
+            <h3 class="text-3xl font-bold text-white text-center mb-12">Intelligent Flow</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 text-center shadow-lg">
+                    <div class="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/50 text-emerald-400 font-bold text-xl">1</div>
+                    <h4 class="text-lg font-bold text-white mb-2">Connect POS</h4>
+                    <p class="text-sm text-slate-400">Integrates with your existing Point of Sale ledger seamlessly.</p>
+                </div>
+                <div class="bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 text-center shadow-lg">
+                    <div class="w-14 h-14 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500 text-emerald-400 font-bold text-xl">2</div>
+                    <h4 class="text-lg font-bold text-white mb-2">Algorithmic Decay</h4>
+                    <p class="text-sm text-slate-400">Calculates optimal markdown tiers based on expiration timelines.</p>
+                </div>
+                <div class="bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-700 text-center shadow-lg">
+                    <div class="w-14 h-14 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4 border border-cyan-500/50 text-cyan-400 font-bold text-xl">3</div>
+                    <h4 class="text-lg font-bold text-white mb-2">Live Sync</h4>
+                    <p class="text-sm text-slate-400">Prices automatically update on user-facing apps instantly.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CIA-IB Prototype -->
+        <section id="workflow" class="mb-32 reveal">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <p class="text-emerald-400 font-semibold text-xs uppercase tracking-widest mb-3">Try The Workflow</p>
+                <h3 class="text-3xl md:text-4xl font-extrabold text-white mb-3">Markdown Approval Console</h3>
+                <p class="text-slate-400 text-sm">Review expiring stock, set a markdown, add a note, and confirm — approved items lock instantly and sync to the storefront.</p>
+            </div>
+
+            <!-- metrics -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="glass rounded-2xl p-5">
+                    <p class="text-xs text-slate-500 mb-1">Items pending</p>
+                    <p id="statPending" class="text-3xl font-extrabold text-white">6</p>
+                </div>
+                <div class="glass rounded-2xl p-5">
+                    <p class="text-xs text-slate-500 mb-1">Critical (&lt; 6h)</p>
+                    <p id="statCritical" class="text-3xl font-extrabold text-red-400">2</p>
+                </div>
+                <div class="glass rounded-2xl p-5">
+                    <p class="text-xs text-slate-500 mb-1">Approved today</p>
+                    <p id="statApproved" class="text-3xl font-extrabold text-emerald-400">0</p>
+                </div>
+                <div class="glass rounded-2xl p-5">
+                    <p class="text-xs text-slate-500 mb-1">Est. value protected</p>
+                    <p id="statValue" class="text-3xl font-extrabold text-cyan-400">₹0</p>
+                </div>
+            </div>
+
+            <!-- filters -->
+            <div class="flex flex-wrap items-center gap-2 mb-5">
+                <button data-filter="all" class="filter-btn active-filter text-xs font-semibold px-4 py-2 rounded-full">All Items</button>
+                <button data-filter="critical" class="filter-btn text-xs font-semibold px-4 py-2 rounded-full">Critical</button>
+                <button data-filter="pending" class="filter-btn text-xs font-semibold px-4 py-2 rounded-full">Pending</button>
+                <button data-filter="approved" class="filter-btn text-xs font-semibold px-4 py-2 rounded-full">Approved</button>
+            </div>
+
+            <div id="inventoryList" class="space-y-3"></div>
+            <div id="inventoryEmpty" class="hidden text-center py-16">
+                <i class="fa-solid fa-circle-check text-5xl text-emerald-500/40 mb-4"></i>
+                <p class="text-slate-400 text-sm">No items in this view.</p>
+            </div>
+        </section>
+
+        <!-- HTML5 APIs -->
+        <section class="grid md:grid-cols-2 gap-8 mb-32 reveal">
+            <!-- canvas -->
+            <div class="bg-slate-900/60 p-8 rounded-3xl border border-slate-700/50 backdrop-blur-md">
+                <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-chart-area text-emerald-400 mr-2"></i>Live Decay Curve (Canvas API)</h3>
+                <p class="text-sm text-slate-400 mb-6">Visualizing real-time price drops as items approach expiration.</p>
+                <div class="bg-slate-950 rounded-xl border border-slate-700 p-4">
+                    <canvas id="decayCanvas" width="400" height="200" class="w-full"></canvas>
+                </div>
+            </div>
+
+            <!-- drag & drop -->
+            <div class="bg-slate-900/60 p-8 rounded-3xl border border-slate-700/50 backdrop-blur-md">
+                <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-file-import text-cyan-400 mr-2"></i>Bulk Import (Drag & Drop API)</h3>
+                <p class="text-sm text-slate-400 mb-6">Store managers can drag inventory CSV files directly into the engine.</p>
+
+                <div id="dropZone"
+                     class="bg-slate-950/50 hover:bg-emerald-500/5 rounded-xl h-[235px] flex flex-col items-center justify-center cursor-pointer"
+                     ondragover="handleDragOver(event)"
+                     ondragleave="handleDragLeave(event)"
+                     ondrop="handleDrop(event)">
+                    <div id="dropContent" class="flex flex-col items-center pointer-events-none">
+                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-slate-500 mb-4 transition-colors"></i>
+                        <p class="text-slate-300 font-medium">Drag & Drop Inventory File Here</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- video demo -->
+        <section id="demo" class="mb-32 text-center bg-slate-900/60 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-slate-700/50 reveal">
+            <h3 class="text-3xl font-bold text-white mb-8">Platform Telemetry Demo</h3>
+            <div class="max-w-4xl mx-auto rounded-2xl overflow-hidden border border-slate-700 bg-slate-950 shadow-2xl">
+                <video width="100%" controls poster="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop">
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+        <!-- faq -->
+        <section class="grid md:grid-cols-2 gap-8 mb-20 reveal">
+            <div id="faq" class="bg-slate-900/60 p-8 rounded-3xl border border-slate-700/50 backdrop-blur-md">
+                <h3 class="text-2xl font-bold text-white mb-6">FAQ</h3>
+                <details class="mb-4 group">
+                    <summary class="font-semibold text-white cursor-pointer list-none flex justify-between">Does FreshFlow replace my POS? <i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></summary>
+                    <p class="text-sm text-slate-400 mt-2">No. It acts as a smart layer on top of your existing system.</p>
+                </details>
+                <details class="group">
+                    <summary class="font-semibold text-white cursor-pointer list-none flex justify-between">How fast do prices update? <i class="fa-solid fa-chevron-down text-slate-500 group-open:rotate-180 transition"></i></summary>
+                    <p class="text-sm text-slate-400 mt-2">Updates are pushed via WebSockets in less than 200 milliseconds.</p>
+                </details>
+            </div>
+
+            <div id="docs" class="bg-slate-900/60 p-8 rounded-3xl border border-slate-700/50 backdrop-blur-md prose prose-invert prose-emerald">
+                <h3 class="text-white font-bold m-0 mb-4">Engineering Standard</h3>
+                <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                    FreshFlow operates on a highly scalable MERN stack, treating inventory as a live data stream to enable enterprise-grade logistics.
+                </p>
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-700 flex justify-between items-center gap-4">
+                    <code id="apiCode" class="text-emerald-400 font-mono text-sm break-all">FF-API-2026-KEY</code>
+                    <button id="copyBtn" onclick="copyKey()" class="bg-slate-800 hover:bg-slate-700 text-white text-xs px-4 py-2 rounded-lg border border-slate-600 transition flex items-center gap-2">
+                        <i class="fa-solid fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UI drawer -->
+    <div id="approvalOverlay" onclick="closeApprovalDrawer()" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40"></div>
+    <aside id="approvalDrawer" class="fixed top-0 right-0 h-full w-full sm:w-[420px] glass border-l border-white/10 z-50 overflow-y-auto">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-bold text-white">Approve Markdown</h3>
+                <button onclick="closeApprovalDrawer()" class="text-slate-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div id="drawerContent"></div>
+        </div>
+    </aside>
+
+    <!-- alerts -->
+    <div id="toast" class="glass border border-emerald-500/30 px-5 py-3.5 rounded-2xl flex items-center gap-3 shadow-2xl max-w-xs" role="alert">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg shrink-0"></i>
+        <p id="toastMsg" class="text-sm text-white font-medium"></p>
+    </div>
+
+    <!-- footer -->
+    <footer class="bg-slate-950/90 backdrop-blur-xl border-t border-slate-800 py-8 mt-auto">
+        <div class="container mx-auto px-6 max-w-7xl flex flex-col md:flex-row justify-between items-center gap-4">
+            <span class="text-white font-bold tracking-wide"><i class="fa-solid fa-bolt text-emerald-500 mr-2"></i>FreshFlow.</span>
+            <p class="text-sm text-slate-500">&copy; 2026 Engineered by Yashraj Kumar for FSD Lab.</p>
+            <div class="flex gap-6">
+                <a href="#" class="text-slate-500 hover:text-emerald-400 transition-colors"><i class="fa-brands fa-github text-xl"></i></a>
+                <a href="#" class="text-slate-500 hover:text-emerald-400 transition-colors"><i class="fa-brands fa-linkedin text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="api-demos.js"></script>
+    <script src="markdown-approval.js"></script>
+</body>
+</html>
