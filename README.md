@@ -21,4 +21,4 @@ This prototype was engineered to meet strict enterprise and academic standards, 
 * **Premium UI/UX:** Built with Tailwind CSS utilizing responsive grid layouts and deep glassmorphism styling.
 
 ## 🌐 Live Prototype
-> **[Click here to view the live Vercel deployment](https://fresh-flow-cia-1b.vercel.app)** *(Note: Evaluator can launch straight into the platform to test the workflow and JS validation).*
+> **[Click here to view the live Vercel deployment](https://fresh-flow-cia-1-b.vercel.app/)** *(Note: Evaluator can launch straight into the platform to test the workflow and JS validation).*
