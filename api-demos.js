@@ -142,11 +142,7 @@ function handleDrop(e) {
   }
 }
 
-// ─────────────────────────────────────────────
-// EXERCISE-3: Event Handling Demonstrations
-// ─────────────────────────────────────────────
-
-// EVENT 1: input — Live product search + character count
+// search input handler - filters inventory as user types
 function handleSearchInput(input) {
   const query = input.value.trim().toLowerCase();
   const count = input.value.length;
@@ -174,7 +170,7 @@ function handleSearchInput(input) {
   }
 }
 
-// EVENT 2: focus / blur — Manager note field glow
+// focus event - highlights the textarea when manager clicks it
 function handleFocusEvent(el) {
   el.style.borderColor = '#10b981';
   el.style.boxShadow = '0 0 0 3px rgba(16,185,129,0.2)';
@@ -182,6 +178,8 @@ function handleFocusEvent(el) {
   fb.textContent = '✏️ Field active — focus event fired. Add your markdown justification.';
   fb.className = 'text-xs text-emerald-400 mt-2 h-4';
 }
+
+// blur event - removes highlight when manager clicks away
 function handleBlurEvent(el) {
   el.style.borderColor = '';
   el.style.boxShadow = '';
@@ -191,7 +189,7 @@ function handleBlurEvent(el) {
   fb.className = hasText ? 'text-xs text-cyan-400 mt-2 h-4' : 'text-xs text-slate-500 mt-2 h-4';
 }
 
-// EVENT 3: mouseover / mouseout — Hover price preview
+// mouseover - shows discounted price when hovering a product card
 function handleMouseover(card) {
   const base = parseFloat(card.dataset.base);
   const pct  = parseFloat(card.dataset.pct);
@@ -206,6 +204,8 @@ function handleMouseover(card) {
   card.style.boxShadow = '0 8px 24px -8px rgba(16,185,129,0.3)';
   card.style.transform = 'translateY(-3px)';
 }
+
+// mouseout - restores original price when mouse leaves
 function handleMouseout(card) {
   card.querySelector('.item-base-price').classList.remove('hidden');
   card.querySelector('.item-hover-price').classList.add('hidden');
@@ -215,7 +215,7 @@ function handleMouseout(card) {
   card.style.transform = '';
 }
 
-// EVENT 4: keydown — Manager keyboard shortcuts
+// keydown - handles keyboard shortcuts for quick navigation
 document.addEventListener('keydown', (e) => {
   const fb = document.getElementById('keydownFeedback');
   if (!fb) return;
@@ -247,7 +247,7 @@ function resetKeyFeedback(el) {
   el.innerHTML = '<i class="fa-solid fa-keyboard text-slate-600"></i> <span>Press a shortcut to see the keydown event fire…</span>';
 }
 
-// EVENT 5: scroll — progress bar + scroll stats
+// scroll - updates progress bar and stats as user scrolls
 window.addEventListener('scroll', () => {
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
   const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;

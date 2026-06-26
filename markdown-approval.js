@@ -212,7 +212,7 @@ function confirmApproval() {
   renderInventory();
   showWorkflowToast(`${it.name} marked down ${pct}% — synced to storefront.`);
 
-  // sync Exercise-3 scroll event stats
+  // update event demo counters after approval
   const evApproved = document.getElementById('evScrollApproved');
   const evPending  = document.getElementById('evScrollPending');
   if (evApproved) evApproved.textContent = approvedTotal;
