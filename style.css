@@ -143,3 +143,13 @@ input[type=range]::-moz-range-thumb {
 #approvalOverlay.open { opacity: 1; pointer-events: auto; }
 
 .filter-btn { transition: background-color .25s, color .25s; cursor: pointer; }
+
+/* Exercise-3: hover price card */
+.hover-price-card {
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* Exercise-3: scroll progress bar */
+#scrollProgress {
+  will-change: width;
+}

@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
+</head>
 <body class="text-slate-300 antialiased overflow-x-hidden flex flex-col min-h-screen" style="font-family:'Plus Jakarta Sans',sans-serif;">
 
     <div class="fixed inset-0 z-[-20] bg-[url('https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2074&auto=format&fit=crop')] bg-cover bg-center"></div>
@@ -26,6 +27,9 @@
 
     <div class="fixed top-[-10%] left-[5%] w-[50%] h-[50%] bg-emerald-600/20 rounded-full blur-[120px] z-[-10]"></div>
     <div class="fixed bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-cyan-600/10 rounded-full blur-[100px] z-[-10]"></div>
+
+    <!-- scroll progress bar -->
+    <div id="scrollProgress" class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-emerald-500 to-cyan-400 z-[100] transition-all duration-100" style="width:0%"></div>
 
     <!-- header nav -->
     <header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 shadow-sm relative">
@@ -42,6 +46,7 @@
                 <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
                 <li><a href="#process" class="hover:text-white transition-colors">How It Works</a></li>
                 <li><a href="#workflow" class="hover:text-white transition-colors">Approval Console</a></li>
+                <li><a href="#events" class="hover:text-white transition-colors">Events</a></li>
                 <li><a href="#demo" class="hover:text-white transition-colors">Demo</a></li>
                 <li><a href="#docs" class="hover:text-white transition-colors">API Docs</a></li>
             </ul>
@@ -217,6 +222,154 @@
             <div id="inventoryEmpty" class="hidden text-center py-16">
                 <i class="fa-solid fa-circle-check text-5xl text-emerald-500/40 mb-4"></i>
                 <p class="text-slate-400 text-sm">No items in this view.</p>
+            </div>
+        </section>
+
+        <!-- Exercise-3: Event Handling Section -->
+        <section id="events" class="mb-32 reveal">
+            <div class="flex items-center gap-3 mb-3">
+               
+            </div>
+            <h3 class="text-3xl font-bold text-white text-center mb-2">JavaScript Event Demonstrations</h3>
+            <p class="text-slate-400 text-center text-sm mb-10">Five domain-relevant events wired into the FreshFlow console.</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+
+                <!-- Event 1: input — Live Search -->
+                <div class="bg-slate-900/60 p-7 rounded-3xl border border-slate-700/50 backdrop-blur-md">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-emerald-500/15 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/25">input</span>
+                        <h4 class="text-white font-bold">Live Product Search</h4>
+                    </div>
+                    <p class="text-slate-400 text-xs mb-4">Filters the inventory list in real-time as you type. Character count updates live.</p>
+                    <div class="relative mb-3">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                        <input id="searchInput" type="text" placeholder="Search products e.g. Paneer, Bread…"
+                            class="w-full bg-slate-800/60 border border-slate-700 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-emerald-500 transition-colors"
+                            oninput="handleSearchInput(this)">
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <p id="searchFeedback" class="text-xs text-slate-500">Start typing to filter inventory…</p>
+                        <span id="charCount" class="text-xs text-slate-600">0 chars</span>
+                    </div>
+                </div>
+
+                <!-- Event 2: focus / blur — Field Highlight -->
+                <div class="bg-slate-900/60 p-7 rounded-3xl border border-slate-700/50 backdrop-blur-md">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-cyan-500/15 text-cyan-400 text-xs font-bold px-3 py-1 rounded-full border border-cyan-500/25">focus / blur</span>
+                        <h4 class="text-white font-bold">Manager Note Field</h4>
+                    </div>
+                    <p class="text-slate-400 text-xs mb-4">The textarea glows green on focus and dims on blur — guiding the manager to fill in justification.</p>
+                    <textarea id="focusDemo" rows="3"
+                        placeholder="Click here to see focus event — add your markdown justification note…"
+                        class="w-full bg-slate-800/60 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all duration-300 resize-none"
+                        onfocus="handleFocusEvent(this)"
+                        onblur="handleBlurEvent(this)"></textarea>
+                    <p id="focusFeedback" class="text-xs text-slate-500 mt-2 h-4">Field inactive.</p>
+                </div>
+
+                <!-- Event 3: mouseover / mouseout — Price Tooltip -->
+                <div class="bg-slate-900/60 p-7 rounded-3xl border border-slate-700/50 backdrop-blur-md">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-amber-500/15 text-amber-400 text-xs font-bold px-3 py-1 rounded-full border border-amber-500/25">mouseover / mouseout</span>
+                        <h4 class="text-white font-bold">Hover Price Preview</h4>
+                    </div>
+                    <p class="text-slate-400 text-xs mb-4">Hover over a product tile to see its discounted price preview before opening the approval drawer.</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="hover-price-card glass rounded-xl p-4 cursor-pointer text-center transition-all duration-300"
+                             data-base="90" data-pct="40"
+                             onmouseover="handleMouseover(this)" onmouseout="handleMouseout(this)">
+                            <i class="fa-solid fa-cheese text-amber-400 mb-2 text-lg"></i>
+                            <p class="text-white text-xs font-semibold">Farm Paneer 200g</p>
+                            <p class="item-base-price text-slate-400 text-xs mt-1">₹90.00</p>
+                            <p class="item-hover-price hidden text-emerald-400 text-sm font-bold mt-1"></p>
+                        </div>
+                        <div class="hover-price-card glass rounded-xl p-4 cursor-pointer text-center transition-all duration-300"
+                             data-base="55" data-pct="25"
+                             onmouseover="handleMouseover(this)" onmouseout="handleMouseout(this)">
+                            <i class="fa-solid fa-bread-slice text-orange-400 mb-2 text-lg"></i>
+                            <p class="text-white text-xs font-semibold">Wheat Bread Loaf</p>
+                            <p class="item-base-price text-slate-400 text-xs mt-1">₹55.00</p>
+                            <p class="item-hover-price hidden text-emerald-400 text-sm font-bold mt-1"></p>
+                        </div>
+                        <div class="hover-price-card glass rounded-xl p-4 cursor-pointer text-center transition-all duration-300"
+                             data-base="210" data-pct="25"
+                             onmouseover="handleMouseover(this)" onmouseout="handleMouseout(this)">
+                            <i class="fa-solid fa-drumstick-bite text-red-400 mb-2 text-lg"></i>
+                            <p class="text-white text-xs font-semibold">Chicken Breast 500g</p>
+                            <p class="item-base-price text-slate-400 text-xs mt-1">₹210.00</p>
+                            <p class="item-hover-price hidden text-emerald-400 text-sm font-bold mt-1"></p>
+                        </div>
+                        <div class="hover-price-card glass rounded-xl p-4 cursor-pointer text-center transition-all duration-300"
+                             data-base="130" data-pct="15"
+                             onmouseover="handleMouseover(this)" onmouseout="handleMouseout(this)">
+                            <i class="fa-solid fa-seedling text-purple-400 mb-2 text-lg"></i>
+                            <p class="text-white text-xs font-semibold">Mixed Berries Punnet</p>
+                            <p class="item-base-price text-slate-400 text-xs mt-1">₹130.00</p>
+                            <p class="item-hover-price hidden text-emerald-400 text-sm font-bold mt-1"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 4: keydown — Keyboard Shortcut -->
+                <div class="bg-slate-900/60 p-7 rounded-3xl border border-slate-700/50 backdrop-blur-md">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-purple-500/15 text-purple-400 text-xs font-bold px-3 py-1 rounded-full border border-purple-500/25">keydown</span>
+                        <h4 class="text-white font-bold">Keyboard Shortcuts</h4>
+                    </div>
+                    <p class="text-slate-400 text-xs mb-5">Manager shortcuts for quick workflow — no mouse required.</p>
+                    <div class="space-y-3 mb-5">
+                        <div class="flex items-center justify-between bg-slate-800/50 rounded-xl px-4 py-3">
+                            <span class="text-slate-300 text-sm">Jump to Approval Console</span>
+                            <div class="flex gap-1">
+                                <kbd class="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded font-mono">Alt</kbd>
+                                <kbd class="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded font-mono">W</kbd>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between bg-slate-800/50 rounded-xl px-4 py-3">
+                            <span class="text-slate-300 text-sm">Clear Search Filter</span>
+                            <div class="flex gap-1">
+                                <kbd class="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded font-mono">Esc</kbd>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between bg-slate-800/50 rounded-xl px-4 py-3">
+                            <span class="text-slate-300 text-sm">Focus Search Bar</span>
+                            <div class="flex gap-1">
+                                <kbd class="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded font-mono">Alt</kbd>
+                                <kbd class="bg-slate-700 text-slate-300 text-xs px-2 py-1 rounded font-mono">S</kbd>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="keydownFeedback" class="glass rounded-xl px-4 py-3 text-xs text-slate-500 flex items-center gap-2 min-h-[44px]">
+                        <i class="fa-solid fa-keyboard text-slate-600"></i>
+                        <span>Press a shortcut to see the keydown event fire…</span>
+                    </div>
+                </div>
+
+                <!-- Event 5: scroll — Progress Tracker -->
+                <div class="bg-slate-900/60 p-7 rounded-3xl border border-slate-700/50 backdrop-blur-md md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-rose-500/15 text-rose-400 text-xs font-bold px-3 py-1 rounded-full border border-rose-500/25">scroll</span>
+                        <h4 class="text-white font-bold">Scroll-Aware Approval Progress</h4>
+                    </div>
+                    <p class="text-slate-400 text-xs mb-5">A sticky header bar (top of page) fills as you scroll down the page — showing reading progress. The approval counter below updates as markdowns are confirmed.</p>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="glass rounded-xl p-4 text-center">
+                            <p class="text-3xl font-extrabold text-white" id="evScrollPct">0%</p>
+                            <p class="text-xs text-slate-500 mt-1">Page Scrolled</p>
+                        </div>
+                        <div class="glass rounded-xl p-4 text-center">
+                            <p class="text-3xl font-extrabold text-emerald-400" id="evScrollApproved">0</p>
+                            <p class="text-xs text-slate-500 mt-1">Markdowns Approved</p>
+                        </div>
+                        <div class="glass rounded-xl p-4 text-center">
+                            <p class="text-3xl font-extrabold text-amber-400" id="evScrollPending">6</p>
+                            <p class="text-xs text-slate-500 mt-1">Items Pending</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
