@@ -141,3 +141,123 @@ function handleDrop(e) {
     `;
   }
 }
+
+// ─────────────────────────────────────────────
+// EXERCISE-3: Event Handling Demonstrations
+// ─────────────────────────────────────────────
+
+// EVENT 1: input — Live product search + character count
+function handleSearchInput(input) {
+  const query = input.value.trim().toLowerCase();
+  const count = input.value.length;
+
+  // update char count display
+  document.getElementById('charCount').textContent = count + ' char' + (count !== 1 ? 's' : '');
+
+  // filter the markdown-approval inventory list if it exists
+  const rows = document.querySelectorAll('#inventoryList > div');
+  let matched = 0;
+  rows.forEach(row => {
+    const name = row.querySelector('h4') ? row.querySelector('h4').textContent.toLowerCase() : '';
+    const visible = !query || name.includes(query);
+    row.style.display = visible ? '' : 'none';
+    if (visible) matched++;
+  });
+
+  const feedback = document.getElementById('searchFeedback');
+  if (!query) {
+    feedback.textContent = 'Start typing to filter inventory…';
+    feedback.className = 'text-xs text-slate-500';
+  } else {
+    feedback.textContent = matched + ' item' + (matched !== 1 ? 's' : '') + ' matched for "' + input.value.trim() + '"';
+    feedback.className = matched > 0 ? 'text-xs text-emerald-400' : 'text-xs text-red-400';
+  }
+}
+
+// EVENT 2: focus / blur — Manager note field glow
+function handleFocusEvent(el) {
+  el.style.borderColor = '#10b981';
+  el.style.boxShadow = '0 0 0 3px rgba(16,185,129,0.2)';
+  const fb = document.getElementById('focusFeedback');
+  fb.textContent = '✏️ Field active — focus event fired. Add your markdown justification.';
+  fb.className = 'text-xs text-emerald-400 mt-2 h-4';
+}
+function handleBlurEvent(el) {
+  el.style.borderColor = '';
+  el.style.boxShadow = '';
+  const fb = document.getElementById('focusFeedback');
+  const hasText = el.value.trim().length > 0;
+  fb.textContent = hasText ? '✓ Note saved — blur event fired.' : 'Field inactive — blur event fired.';
+  fb.className = hasText ? 'text-xs text-cyan-400 mt-2 h-4' : 'text-xs text-slate-500 mt-2 h-4';
+}
+
+// EVENT 3: mouseover / mouseout — Hover price preview
+function handleMouseover(card) {
+  const base = parseFloat(card.dataset.base);
+  const pct  = parseFloat(card.dataset.pct);
+  const discounted = (base * (1 - pct / 100)).toFixed(2);
+
+  card.querySelector('.item-base-price').classList.add('hidden');
+  const hoverEl = card.querySelector('.item-hover-price');
+  hoverEl.textContent = '₹' + discounted + ' (' + pct + '% off)';
+  hoverEl.classList.remove('hidden');
+
+  card.style.borderColor = 'rgba(16,185,129,0.45)';
+  card.style.boxShadow = '0 8px 24px -8px rgba(16,185,129,0.3)';
+  card.style.transform = 'translateY(-3px)';
+}
+function handleMouseout(card) {
+  card.querySelector('.item-base-price').classList.remove('hidden');
+  card.querySelector('.item-hover-price').classList.add('hidden');
+
+  card.style.borderColor = '';
+  card.style.boxShadow = '';
+  card.style.transform = '';
+}
+
+// EVENT 4: keydown — Manager keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  const fb = document.getElementById('keydownFeedback');
+  if (!fb) return;
+
+  // Alt+W → jump to approval console
+  if (e.altKey && e.key.toLowerCase() === 'w') {
+    e.preventDefault();
+    document.getElementById('workflow')?.scrollIntoView({ behavior: 'smooth' });
+    fb.innerHTML = '<i class="fa-solid fa-arrow-down text-emerald-400"></i> <span class="text-emerald-400">Alt+W fired — jumped to Approval Console.</span>';
+    setTimeout(() => resetKeyFeedback(fb), 3000);
+  }
+  // Esc → clear search
+  else if (e.key === 'Escape') {
+    const si = document.getElementById('searchInput');
+    if (si) { si.value = ''; handleSearchInput(si); }
+    fb.innerHTML = '<i class="fa-solid fa-xmark text-amber-400"></i> <span class="text-amber-400">Esc fired — search cleared.</span>';
+    setTimeout(() => resetKeyFeedback(fb), 3000);
+  }
+  // Alt+S → focus search bar
+  else if (e.altKey && e.key.toLowerCase() === 's') {
+    e.preventDefault();
+    document.getElementById('searchInput')?.focus();
+    fb.innerHTML = '<i class="fa-solid fa-magnifying-glass text-cyan-400"></i> <span class="text-cyan-400">Alt+S fired — search bar focused.</span>';
+    setTimeout(() => resetKeyFeedback(fb), 3000);
+  }
+});
+
+function resetKeyFeedback(el) {
+  el.innerHTML = '<i class="fa-solid fa-keyboard text-slate-600"></i> <span>Press a shortcut to see the keydown event fire…</span>';
+}
+
+// EVENT 5: scroll — progress bar + scroll stats
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
+
+  // update sticky progress bar
+  const bar = document.getElementById('scrollProgress');
+  if (bar) bar.style.width = pct + '%';
+
+  // update scroll event demo stats
+  const evPct = document.getElementById('evScrollPct');
+  if (evPct) evPct.textContent = pct + '%';
+});

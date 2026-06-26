@@ -212,6 +212,12 @@ function confirmApproval() {
   renderInventory();
   showWorkflowToast(`${it.name} marked down ${pct}% — synced to storefront.`);
 
+  // sync Exercise-3 scroll event stats
+  const evApproved = document.getElementById('evScrollApproved');
+  const evPending  = document.getElementById('evScrollPending');
+  if (evApproved) evApproved.textContent = approvedTotal;
+  if (evPending)  evPending.textContent  = inventory.filter(i => i.status === 'pending').length;
+
   // send native desktop notification
   if ('Notification' in window && Notification.permission === 'granted') {
     new Notification('Markdown Approved ✅', { body: `${it.name} now ₹${(it.basePrice * (1 - pct / 100)).toFixed(2)} (${pct}% off)` });
